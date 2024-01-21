@@ -1,8 +1,15 @@
+// video - 13
+
 const redux = require("redux");
+
+const reduxLogger = require("redux-logger");
 
 const createStore = redux.createStore;
 
-const combineReducers = redux.combineReducers
+const logger = reduxLogger.createLogger();
+
+const combineReducers = redux.combineReducers;
+const applyMiddleware = redux.applyMiddleware;
 
 // action
 const BUY_CAKE = "BUY_CAKE";
@@ -57,13 +64,12 @@ function icecreamReducer(prevState = icecreamInitialState, action) {
   }
 }
 
-
 const rootReducers = combineReducers({
-    cake:cakeReducer,
-    icecream: icecreamReducer
-})
+  cake: cakeReducer,
+  icecream: icecreamReducer,
+});
 
-const store = createStore(rootReducers);
+const store = createStore(rootReducers, applyMiddleware(logger));
 
 console.log("get the state value ", store.getState());
 const unsubscriber = store.subscribe(function () {
@@ -74,8 +80,3 @@ store.dispatch(buyCake());
 unsubscriber();
 
 store.dispatch(buyCake());
-
-
-
-
-
